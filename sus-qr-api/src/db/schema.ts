@@ -21,6 +21,7 @@ export const reportsTable = mysqlTable('reports', {
   id: serial().primaryKey(),
   qrImage: text().notNull(),
   description: text().notNull(),
+  qrDecodedData: text().notNull(),
   userId: int()
     .notNull()
     .references(() => usersTable.id),
