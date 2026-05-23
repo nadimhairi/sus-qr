@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "sus-qr-client",
-    "slug": "sus-qr-client",
+    "name": "sus-qr",
+    "slug": "sus-qr",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "susqrclient",
+    "scheme": "susqr",
     "userInterfaceStyle": "automatic",
     "ios": {
       "icon": "./assets/expo.icon"
@@ -39,6 +39,13 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
-    }
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "c348a19b-f687-46f5-9db9-a3d02f2ba33f"
+      }
+    },
+    "owner": "nadimhairi"
   }
 }
