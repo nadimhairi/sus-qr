@@ -28,13 +28,18 @@
       [
         "expo-splash-screen",
         {
-          "backgroundColor": "#208AEF",
+          "backgroundColor": "#EE3872",
           "android": {
-            "image": "./assets/images/splash-icon.png",
+            "image": "./assets/images/logo-sus-qr.png",
+            "imageWidth": 76
+          },
+          "ios": {
+            "image": "./assets/images/logo-sus-qr.png",
             "imageWidth": 76
           }
         }
-      ]
+      ],
+      "expo-barcode-scanner"
     ],
     "experiments": {
       "typedRoutes": true,

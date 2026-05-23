@@ -1,6 +1,13 @@
 import { Stack } from 'expo-router'
 import '@/global.css'
+import { View, Image } from 'react-native'
+import { Navbar } from '@/components/navbar'
 
 export default function RootLayout() {
-  return <Stack screenOptions={{ headerShown: false }} />
+  return (
+    <>
+      <Navbar />
+      <Stack screenOptions={{ headerShown: false }} />
+    </>
+  )
 }
