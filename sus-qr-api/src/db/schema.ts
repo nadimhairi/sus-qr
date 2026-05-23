@@ -19,9 +19,9 @@ export const usersTable = mysqlTable('users', {
 
 export const reportsTable = mysqlTable('reports', {
   id: serial().primaryKey(),
-  qrImage: text().notNull(),
   description: text().notNull(),
   qrDecodedData: text().notNull(),
+  proxyId: varchar({ length: 255 }).notNull(),
   userId: int()
     .notNull()
     .references(() => usersTable.id),

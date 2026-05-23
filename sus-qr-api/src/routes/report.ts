@@ -7,7 +7,7 @@ const router = new Hono()
 router.post('/report', async (c) => {
   try {
     const body = await c.req.json()
-    const { qrImage, description, userId } = body
+    const { qrImage, description, userId, qrDecodedData, proxyId } = body
 
     if (!qrImage || !description || !userId) {
       return c.json({ error: 'Missing required fields' }, 400)
@@ -16,9 +16,10 @@ router.post('/report', async (c) => {
     const result = await db
       .insert(reportsTable)
       .values({
-        qrImage,
         description,
         userId,
+        qrDecodedData, 
+        proxyId,
       })
       .$returningId()
 
