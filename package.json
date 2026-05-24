@@ -2,9 +2,19 @@
   "name": "sus-qr",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start:app": "npm run start --workspace=sus-qr",
+    "dev:api": "npm run dev --workspace=sus-qr-api",
+    "build:api": "npm run build --workspace=sus-qr-api",
+    "start:api": "npm run start --workspace=sus-qr-api",
+    "lint": "npm run lint --workspace=sus-qr"
+  },
+  "workspaces": [
+    "sus-qr",
+    "sus-qr-api"
+  ],
+  "devDependencies": {
+    "concurrently": "^8.2.2"
   },
   "author": "",
   "license": "ISC"

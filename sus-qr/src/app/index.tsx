@@ -9,6 +9,7 @@ import { Alert } from 'react-native'
 
 export default function App() {
   const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [lastScanResult, setLastScanResult] = useState<string | null>(null)
 
   const handleScanQR = useCallback(async () => {
     try {
@@ -27,19 +28,28 @@ export default function App() {
       const result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ['images'],
         allowsEditing: false,
-        aspect: [1, 1],
         quality: 1,
+        base64: true,
       })
 
       if (!result.canceled) {
-        const uri = result.assets[0].uri
+        const asset = result.assets[0]
+        const uri = asset.uri
+        const base64 = asset.base64
+
+        if (!base64) {
+          Alert.alert(
+            'Image error',
+            'Could not read image data from the selected file.',
+          )
+          return
+        }
+
         setSelectedImage(uri)
-        // TODO: Process the selected image (send to API for QR decoding)
-        Alert.alert('Image Selected', `Image ready for processing: ${uri}`)
       }
     } catch (error) {
-      console.error('Error picking image:', error)
-      Alert.alert('Error', 'Failed to pick image. Please try again.')
+      console.error('Error scanning QR image:', error)
+      Alert.alert('Error', 'Failed to scan the selected image.')
     }
   }, [])
 
@@ -52,16 +62,32 @@ export default function App() {
       >
         <Pressable
           onPress={handleScanQR}
-          className="mt-8 rounded-[24px] bg-primary border border-primary p-12 items-center"
+          className="mt-8 rounded-[24px] border border-dashed border-primary/40 bg-primary/5 px-8 py-12 items-center"
         >
-          <ScanQrCode className="mx-auto" color="white" size={40} />
-          <Text className="mt-2 text-center text-xl font-bold text-primary-foreground">
-            Scan new QR
+          <ScanQrCode color="#EE3872" size={36} />
+          <Text className="mt-3 text-center text-lg font-semibold text-primary">
+            Scan new QR image
           </Text>
-          <Text className="mt-1 text-center text-sm font-medium text-white/70">
-            Upload DuitNow QR image
+          <Text className="mt-1 text-center text-sm text-foreground/70">
+            Select an image from your library
           </Text>
         </Pressable>
+
+        {selectedImage ? (
+          <View className="mt-6 items-center">
+            <Image
+              source={{ uri: selectedImage }}
+              className="h-48 w-full rounded-[24px]"
+              resizeMode="contain"
+            />
+            {lastScanResult ? (
+              <Text className="mt-3 text-center text-sm font-medium text-foreground">
+                Decoded QR: {lastScanResult}
+              </Text>
+            ) : null}
+          </View>
+        ) : null}
+
         <View className="mt-8 flex-row items-center justify-between">
           <Text className="text-xl font-semibold text-foreground">
             Detected QR

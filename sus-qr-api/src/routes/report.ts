@@ -18,7 +18,7 @@ router.post('/report', async (c) => {
       .values({
         description,
         userId,
-        qrDecodedData, 
+        qrDecodedData,
         proxyId,
       })
       .$returningId()

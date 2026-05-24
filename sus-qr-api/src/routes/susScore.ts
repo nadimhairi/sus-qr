@@ -3,7 +3,7 @@ import { eq } from 'drizzle-orm'
 import { db } from '../db/index'
 import { reportsTable } from '../db/schema'
 
-const router =  new Hono ()
+const router = new Hono()
 
 type SusLevel = 'low' | 'medium' | 'high'
 
@@ -11,31 +11,38 @@ router.get('/:proxyId', async (c) => {
   const proxyId = c.req.param('proxyId')
 
   try {
-    const reports = await db.select().from(reportsTable).where(eq(reportsTable.proxyId, proxyId))
+    const reports = await db
+      .select()
+      .from(reportsTable)
+      .where(eq(reportsTable.proxyId, proxyId))
     // Process the reports and calculate SUS score
 
-  const reportCount = reports.length
-  let susLevel: SusLevel = 'low'
+    const reportCount = reports.length
+    let susLevel: SusLevel = 'low'
     if (reportCount >= 3) {
       susLevel = 'high'
     } else if (reportCount >= 1) {
       susLevel = 'medium'
     }
 
-  return c.json({
+    return c.json({
       success: true,
       proxyId,
       reportCount,
       susLevel,
-      reports, 
+      reports,
     })
-    } catch (error) {
-        console.error('Failed to calculate susScore:', error)
-        return c.json({
-            success: false,
-            message: 'An error occurred while evaluating the fraud score. Please try again later.',
-        }, 500)
-    }
+  } catch (error) {
+    console.error('Failed to calculate susScore:', error)
+    return c.json(
+      {
+        success: false,
+        message:
+          'An error occurred while evaluating the fraud score. Please try again later.',
+      },
+      500,
+    )
+  }
 })
 
 export default router
